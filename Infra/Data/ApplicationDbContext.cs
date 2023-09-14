@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using IWantApp.Domain.Products;
+﻿using IWantApp.Domain.Products;
+using Microsoft.EntityFrameworkCore;
 
-using IWantApp.Infra.Data;
+namespace IWantApp.Infra.Data;
 
 
 // Classe de contexto de banco de dados
@@ -14,11 +14,18 @@ public class ApplicationDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        
+        builder.Entity<Product>()
+            .Property(p => p.Name).IsRequired();
+        builder.Entity<Product>()
+            .Property(p => p.Description).HasMaxLength(255);
+
+        builder.Entity<Category>()
+            .Property(c => c.Name).IsRequired();
     }
 
-    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+    protected override void ConfigureConventions(ModelConfigurationBuilder configuration)
     {
-        base.ConfigureConventions(configurationBuilder);
+        configuration.Properties<string>()
+            .HaveMaxLength(100);
     }
 }
