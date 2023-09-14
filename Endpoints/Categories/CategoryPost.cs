@@ -11,6 +11,11 @@ public class CategoryPost
 
     public static IResult Action(CategoryRequest categoryRequest, ApplicationDbContext context)
     {
+        var category = new Category
+        {
+            Name = categoryRequest.Name
+        };
+
         return Results.Ok("Ok");
     }
 
