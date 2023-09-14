@@ -18,7 +18,7 @@ public class CategoryPost
         context.Categories.Add(category);
         context.SaveChanges();
 
-        return Results.Ok("Ok");
+        return Results.Created($"/categories/{category.Id}", category.Id);
     }
 
 }
