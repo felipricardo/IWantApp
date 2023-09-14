@@ -15,6 +15,8 @@ public class CategoryPost
         {
             Name = categoryRequest.Name
         };
+        context.Categories.Add(category);
+        context.SaveChanges();
 
         return Results.Ok("Ok");
     }
