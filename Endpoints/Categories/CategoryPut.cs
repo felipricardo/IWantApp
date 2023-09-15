@@ -18,7 +18,7 @@ public class CategoryPut
 
         context.SaveChanges();
 
-        return Results.Created($"/categories/{category.Id}", category.Id);
+        return Results.Ok();
     }
 
 }
