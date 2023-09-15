@@ -14,7 +14,7 @@ public class CategoryGetAll
         var categories = context.Categories.ToList();
         var response = categories.Select(c => new CategoryResponse { Name = c.Name, Active = c.Active });
 
-        return Results.Ok(categories);
+        return Results.Ok(response);
     }
 
 }
