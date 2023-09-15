@@ -13,11 +13,10 @@ public class CategoryPost
     {
         var category = new Category(categoryRequest.Name)
         {
-            Name = categoryRequest.Name,
-            CreateBy = "Test",
+            CreatedBy = "Test",
             CreatedOn = DateTime.Now,
-            EditeBy = "Test",
-            EditeOn = DateTime.Now
+            EditedBy = "Test",
+            EditedOn = DateTime.Now
         };
 
         if (!category.IsValid)
