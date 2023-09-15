@@ -9,20 +9,11 @@ public class CategoryGetAll
     public static string[] Methods => new string[] { HttpMethod.Post.ToString() };
     public static Delegate Handle => Action;
 
-    public static IResult Action(CategoryRequest categoryRequest, ApplicationDbContext context)
+    public static IResult Action(ApplicationDbContext context)
     {
-        var category = new Category
-        {
-            Name = categoryRequest.Name,
-            CreateBy = "Test",
-            CreatedOn = DateTime.Now,
-            EditeBy = "Test",
-            EditeOn = DateTime.Now
-        };
-        context.Categories.Add(category);
-        context.SaveChanges();
+        var categories = context.Categories.ToList();
 
-        return Results.Created($"/categories/{category.Id}", category.Id);
+        return Results.Ok(categories);
     }
 
 }
