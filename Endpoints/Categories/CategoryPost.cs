@@ -11,6 +11,9 @@ public class CategoryPost
 
     public static IResult Action(CategoryRequest categoryRequest, ApplicationDbContext context)
     {
+        if (string.IsNullOrEmpty(categoryRequest.Name))
+            return Results.BadRequest("Name is required");
+
         var category = new Category
         {
             Name = categoryRequest.Name,
