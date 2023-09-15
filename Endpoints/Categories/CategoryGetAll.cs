@@ -12,6 +12,7 @@ public class CategoryGetAll
     public static IResult Action(ApplicationDbContext context)
     {
         var categories = context.Categories.ToList();
+        var response = categories.Select(c => new CategoryResponse { Name = c.Name, Active = c.Active });
 
         return Results.Ok(categories);
     }
