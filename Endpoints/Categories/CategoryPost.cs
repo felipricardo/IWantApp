@@ -11,10 +11,7 @@ public class CategoryPost
 
     public static IResult Action(CategoryRequest categoryRequest, ApplicationDbContext context)
     {
-        if (string.IsNullOrEmpty(categoryRequest.Name))
-            return Results.BadRequest("Name is required");
-
-        var category = new Category
+        var category = new Category(categoryRequest.Name)
         {
             Name = categoryRequest.Name,
             CreateBy = "Test",
@@ -22,6 +19,10 @@ public class CategoryPost
             EditeBy = "Test",
             EditeOn = DateTime.Now
         };
+
+        if (!category.IsValid)
+            return Results.BadRequest(category.Notifications);
+        
         context.Categories.Add(category);
         context.SaveChanges();
 
