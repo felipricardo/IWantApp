@@ -10,7 +10,7 @@ public class Category : Entity
     public Category(string name)
     {
         var contract = new Contract<Category>()
-            .IsNotNull(name, "Name");
+            .IsNotNullOrEmpty(name, "Name");
         AddNotifications(contract);
 
         Name = name;
