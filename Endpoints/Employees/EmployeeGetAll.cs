@@ -16,7 +16,8 @@ public class EmployeeGetAll
         foreach (var item in users)
         {
             var claims = userManager.GetClaimsAsync(item).Result;
-            var userName = claims.FirstOrDefault(c => c.Type == "Name").Value;
+            var claimName = claims.FirstOrDefault(c => c.Type == "Name");
+            var userName = claimName != null ? claimName.Value : string.Empty;
             employees.Add(new EmployeeResponse(item.Email, userName));
         }
 
