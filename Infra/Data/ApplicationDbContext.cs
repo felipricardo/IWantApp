@@ -1,12 +1,14 @@
 ﻿using Flunt.Notifications;
 using IWantApp.Domain.Products;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace IWantApp.Infra.Data;
 
 
 // Classe de contexto de banco de dados
-public class ApplicationDbContext : DbContext
+public class ApplicationDbContext : IdentityDbContext<IdentityUser>
 {
     public DbSet<Product> Products { get; set; }
     public DbSet<Category> Categories { get; set; }
