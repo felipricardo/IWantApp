@@ -1,5 +1,5 @@
 ﻿using IWantApp.Domain.Products;
-using IWantApp.Endpoints.Employes;
+using IWantApp.Endpoints.Employees;
 using IWantApp.Infra.Data;
 using Microsoft.AspNetCore.Identity;
 
