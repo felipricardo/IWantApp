@@ -1,6 +1,9 @@
 ﻿using IWantApp.Domain.Products;
 using IWantApp.Infra.Data;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Linq;
+using System.Net.Http;
 
 namespace IWantApp.Endpoints.Categories;
 
@@ -17,8 +20,10 @@ public class CategoryPut
         if (category == null)
             return Results.NotFound();
 
-        category.Name = categoryRequest.Name;
-        category.Active = categoryRequest.Active;
+        category.EditInfo(categoryRequest.Name, categoryRequest.Active);
+
+        if (!category.IsValid)
+            return Results.ValidationProblem(category.Notifications.ConvertToProblemDetails());
 
         context.SaveChanges();
 
