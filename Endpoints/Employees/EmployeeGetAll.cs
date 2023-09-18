@@ -14,11 +14,14 @@ public class EmployeeGetAll
     public static IResult Action(int page, int rows, IConfiguration configuration)
     {
         var db = new SqlConnection(configuration["ConnectionStrings: IWantDb"]);
-        var employees = db.Query<EmployeeRequest>(
-            @"select Email, ClaimValue
+        var employees = db.Query<EmployeeResponse>(
+            @"select Email, ClaimValue as Name
                 from AspNetUsers u inner
                 join AspNetUserClaims c
-                on u.id = c.UserId and claimtype = 'Name'")
+                on u.id = c.UserId and claimtype = 'Name'"
+        );
+
+        return Results.Ok(employees);
     }
 
 }
