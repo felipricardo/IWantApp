@@ -3,7 +3,7 @@ using IWantApp.Infra.Data;
 
 namespace IWantApp.Endpoints.Categories;
 
-public class CategoryPost
+public class EmployeePost
 {
     public static string Template => "/categories";
     public static string[] Methods => new string[] { HttpMethod.Post.ToString() };
