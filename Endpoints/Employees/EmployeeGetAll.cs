@@ -16,9 +16,10 @@ public class EmployeeGetAll
         foreach (var item in users)
         {
             var claims = userManager.GetClaimsAsync(item).Result;
-            var userName = claims.First(c => c.Type == "Name");
+            var userName = claims.FirstOrDefault(c => c.Type == "Name").Value;
+            employees.Add(new EmployeeResponse(item.Email, userName));
         }
-        var employees = users.Select(u => new EmployeeResponse(u.Email, "Name"));
+
         return Results.Ok(employees);
     }
 
