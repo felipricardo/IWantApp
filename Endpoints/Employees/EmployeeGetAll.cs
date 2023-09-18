@@ -11,7 +11,7 @@ public class EmployeeGetAll
 
     public static IResult Action(int page, int rows, UserManager<IdentityUser> userManager)
     {
-        var users = userManager.Users.ToList();
+        var users = userManager.Users.Skip((page - 1) * rows).ToList();
         var employees = new List<EmployeeResponse>();
         foreach (var item in users)
         {
