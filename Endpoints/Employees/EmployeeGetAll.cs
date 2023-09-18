@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Dapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.SqlClient;
 using System.Security.Claims;
 
@@ -13,6 +14,11 @@ public class EmployeeGetAll
     public static IResult Action(int page, int rows, IConfiguration configuration)
     {
         var db = new SqlConnection(configuration["ConnectionStrings: IWantDb"]);
+        var employees = db.Query<EmployeeRequest>(
+            @"select Email, ClaimValue
+                from AspNetUsers u inner
+                join AspNetUserClaims c
+                on u.id = c.UserId and claimtype = 'Name'")
     }
 
 }
