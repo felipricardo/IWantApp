@@ -3,7 +3,6 @@ using IWantApp.Infra.Data;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
-using System.Net.Http;
 
 namespace IWantApp.Endpoints.Categories;
 
