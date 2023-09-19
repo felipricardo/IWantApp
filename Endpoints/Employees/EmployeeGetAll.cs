@@ -18,8 +18,10 @@ public class EmployeeGetAll
             @"select Email, ClaimValue as Name
                 from AspNetUsers u inner
                 join AspNetUserClaims c
-                on u.id = c.UserId and claimtype = 'Name'"
-        );
+                on u.id = c.UserId and claimtype = 'Name'
+               order by name
+                OFFSET (@page -1 ) * @rows FETCH NEXT @rows ROWS ONLY"
+        ); ;
 
         return Results.Ok(employees);
     }
