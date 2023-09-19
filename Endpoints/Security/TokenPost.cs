@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
@@ -26,11 +27,18 @@ public class TokenPost
             {
                 new Claim(ClaimTypes.Email, loginRequest.Email),
             }),
-            SigningCredentials = 
+            SigningCredentials =
                 new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
             Audience = "IWantApp",
             Issuer = "Issuer"
-        }
+        };
+
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var token = tokenHandler.CreateToken(tokenDescriptor);
+        return Results.Ok(new
+        {
+            token = tokenHandler.WriteToken(token)
+        });
     }
 
 }
