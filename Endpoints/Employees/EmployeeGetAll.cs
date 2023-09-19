@@ -20,7 +20,7 @@ public class EmployeeGetAll
             join AspNetUserClaims c
             on u.id = c.UserId and claimtype = 'Name'
             order by name
-            OFFSET (@page -1 ) * @rows FETCH NEXT @rows ROWS ONLY"
+            OFFSET (@page -1 ) * @rows FETCH NEXT @rows ROWS ONLY";
         var employees = db.Query<EmployeeResponse>(
             query,
             new { page, rows }
