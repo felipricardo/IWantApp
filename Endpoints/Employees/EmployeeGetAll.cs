@@ -14,14 +14,18 @@ public class EmployeeGetAll
     public static IResult Action(int page, int rows, IConfiguration configuration)
     {
         var db = new SqlConnection(configuration["ConnectionStrings: IWantDb"]);
-        var employees = db.Query<EmployeeResponse>(
+        var query =
             @"select Email, ClaimValue as Name
-                from AspNetUsers u inner
-                join AspNetUserClaims c
-                on u.id = c.UserId and claimtype = 'Name'
-               order by name
-                OFFSET (@page -1 ) * @rows FETCH NEXT @rows ROWS ONLY"
-        ); ;
+            from AspNetUsers u inner
+            join AspNetUserClaims c
+            on u.id = c.UserId and claimtype = 'Name'
+            order by name
+            OFFSET (@page -1 ) * @rows FETCH NEXT @rows ROWS ONLY"
+        var employees = db.Query<EmployeeResponse>(
+            query,
+            new { page, rows }
+            
+        );
 
         return Results.Ok(employees);
     }
