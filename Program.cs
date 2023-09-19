@@ -28,6 +28,8 @@ builder.Services.AddAuthorization(options =>
       .Build();
     options.AddPolicy("EmployeePolicy", p =>
         p.RequireAuthenticatedUser().RequireClaim("EmployeeCode"));
+    options.AddPolicy("Employee909Policy", p =>
+        p.RequireAuthenticatedUser().RequireClaim("EmployeeCode", "909"));
 });
 builder.Services.AddAuthentication(x =>
 {
