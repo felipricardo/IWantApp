@@ -1,9 +1,4 @@
-﻿using System;
-using Dapper;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Data.SqlClient;
-using System.Security.Claims;
-using IWantApp.Infra.Data;
+﻿using IWantApp.Infra.Data;
 
 namespace IWantApp.Endpoints.Employees;
 
@@ -15,6 +10,7 @@ public class EmployeeGetAll
 
     public static IResult Action(int? page, int? rows, QueryAllUsersWithClaimName query)
     {
+        // implementar validação
         return Results.Ok(query.Execute(page.Value, rows.Value));
     }
 
