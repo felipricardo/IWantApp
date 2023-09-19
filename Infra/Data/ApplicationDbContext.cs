@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IWantApp.Infra.Data;
 
-
 // Classe de contexto de banco de dados
 public class ApplicationDbContext : IdentityDbContext<IdentityUser>
 {
