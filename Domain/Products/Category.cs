@@ -1,5 +1,4 @@
-﻿using System;
-using Flunt.Validations;
+﻿using Flunt.Validations;
 
 namespace IWantApp.Domain.Products;
 

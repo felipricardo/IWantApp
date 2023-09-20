@@ -1,7 +1,4 @@
-﻿using IWantApp.Domain.Products;
-using IWantApp.Infra.Data;
-using Microsoft.AspNetCore.Authorization;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 
 namespace IWantApp.Endpoints.Categories;
 

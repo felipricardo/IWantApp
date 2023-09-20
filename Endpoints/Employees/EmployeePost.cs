@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using System.Security.Claims;
-using static System.Net.WebRequestMethods;
+﻿using System.Security.Claims;
 
 namespace IWantApp.Endpoints.Employees;
 
