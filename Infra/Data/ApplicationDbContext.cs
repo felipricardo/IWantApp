@@ -26,6 +26,11 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
 
         builder.Entity<Category>()
             .Property(c => c.Name).IsRequired();
+
+        builder.Entity<Order>()
+            .Property(o => o.ClientId).IsRequired();
+        builder.Entity<Order>()
+            .Property(o => o.DeliveryAddress).IsRequired();
     }
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configuration)
