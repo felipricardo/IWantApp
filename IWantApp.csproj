@@ -20,6 +20,11 @@
 		<Using Include="Microsoft.Data.SqlClient" />
 		<Using Include="Microsoft.IdentityModel.Tokens" />
 		<Using Include="System.Text" />
+		<Using Include="IWantApp.Endpoints.Clients" />
+		<Using Include="IWantApp.Endpoints.Products" />
+		<Using Include="Serilog" />
+		<Using Include="Serilog.Sinks.MSSqlServer" />
+		<Using Include="System.Security.Claims" />
 		
 
 		<Using Include="IWantApp.Domain.Products" />

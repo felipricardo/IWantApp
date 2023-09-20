@@ -1,10 +1,13 @@
-﻿namespace IWantApp.Infra.Data;
+﻿using IWantApp.Domain.Orders;
+
+namespace IWantApp.Infra.Data;
 
 // Classe de contexto de banco de dados
 public class ApplicationDbContext : IdentityDbContext<IdentityUser>
 {
     public DbSet<Product> Products { get; set; }
     public DbSet<Category> Categories { get; set; }
+    public DbSet<Order> Orders { get; set; }
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
