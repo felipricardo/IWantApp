@@ -17,6 +17,8 @@ public class EmployeePost
     [Authorize(Policy = "EmployeePolicy")]
     public static async Task<IResult> Action(EmployeeRequest employeeRequest, HttpContext http, UserManager<IdentityUser> userManager)
     {
+        
+
         // Obtém o ID do usuário atual
         var userId = http.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
 
