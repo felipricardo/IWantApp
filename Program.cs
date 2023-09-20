@@ -9,10 +9,14 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Configuração do banco de dados
 builder.Services.AddSqlServer<ApplicationDbContext>(
     builder.Configuration["ConnectionStrings:IWantDb"]);
+
+// Configuração do Identity
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
-{
+{   // Configurações de senha
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequireDigit = false;
     options.Password.RequireUppercase = false;
@@ -21,7 +25,7 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 }).AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddAuthorization(options =>
-{
+{   // Configuração de autorização
     options.FallbackPolicy = new AuthorizationPolicyBuilder()
       .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
       .RequireAuthenticatedUser()
@@ -31,6 +35,8 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("Employee909Policy", p =>
         p.RequireAuthenticatedUser().RequireClaim("EmployeeCode", "909"));
 });
+
+// Políticas de autorização
 builder.Services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
