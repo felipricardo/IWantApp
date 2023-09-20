@@ -31,6 +31,10 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
             .Property(o => o.ClientId).IsRequired();
         builder.Entity<Order>()
             .Property(o => o.DeliveryAddress).IsRequired();
+        builder.Entity<Order>()
+            .HasMany(o => o.Products)
+            .WithMany(p => p.Orders)
+            .UsingEntity(x => x.ToTable("") )
     }
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configuration)
