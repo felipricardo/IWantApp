@@ -1,29 +1,15 @@
 using IWantApp.Domain.Users;
 using IWantApp.Endpoints.Clients;
 using IWantApp.Endpoints.Products;
+using Microsoft.AspNetCore.Diagnostics;
 using Serilog;
 using Serilog.Sinks.MSSqlServer;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.WebHost.UseSerilog((context, configuration) => {
-    configuration
-        .WriteTo.Console()
-        .WriteTo.MSSqlServer(
-            context.Configuration["ConnectionStrings:IWantDb"],
-              sinkOptions: new MSSqlServerSinkOptions()
-              {
-                  AutoCreateSqlTable = true,
-                  TableName = "LogAPI"
-              });
-});
-
-// Configuração do banco de dados
 builder.Services.AddSqlServer<ApplicationDbContext>(
     builder.Configuration["ConnectionStrings:IWantDb"]);
-
-// Configuração do Identity
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
-{   // Configurações de senha
+{
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequireDigit = false;
     options.Password.RequireUppercase = false;
@@ -32,18 +18,16 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 }).AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddAuthorization(options =>
-{   // Configuração de autorização
+{
     options.FallbackPolicy = new AuthorizationPolicyBuilder()
       .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
       .RequireAuthenticatedUser()
       .Build();
     options.AddPolicy("EmployeePolicy", p =>
         p.RequireAuthenticatedUser().RequireClaim("EmployeeCode"));
-    options.AddPolicy("Employee909Policy", p =>
-        p.RequireAuthenticatedUser().RequireClaim("EmployeeCode", "909"));
+    options.AddPolicy("CpfPolicy", p =>
+        p.RequireAuthenticatedUser().RequireClaim("Cpf"));
 });
-
-// Políticas de autorização
 builder.Services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -70,11 +54,22 @@ builder.Services.AddScoped<UserCreator>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.WebHost.UseSerilog((context, configuration) =>
+{
+    configuration
+        .WriteTo.Console()
+        .WriteTo.MSSqlServer(
+            context.Configuration["ConnectionStrings:IWantDb"],
+              sinkOptions: new MSSqlServerSinkOptions()
+              {
+                  AutoCreateSqlTable = true,
+                  TableName = "LogAPI"
+              });
+});
 
 var app = builder.Build();
 app.UseAuthentication();
 app.UseAuthorization();
-
 
 if (app.Environment.IsDevelopment())
 {
@@ -95,14 +90,14 @@ app.MapMethods(ProductGetAll.Template, ProductGetAll.Methods, ProductGetAll.Hand
 app.MapMethods(ProductGetShowcase.Template, ProductGetShowcase.Methods, ProductGetShowcase.Handle);
 app.MapMethods(ClientPost.Template, ClientPost.Methods, ClientPost.Handle);
 app.MapMethods(ClientGet.Template, ClientGet.Methods, ClientGet.Handle);
-
+app.MapMethods(OrderPost.Template, OrderPost.Methods, OrderPost.Handle);
 
 app.UseExceptionHandler("/error");
-app.Map("/error", (HttpContext http) =>
-{
+app.Map("/error", (HttpContext http) => {
+
     var error = http.Features?.Get<IExceptionHandlerFeature>()?.Error;
 
-    if(error != null)
+    if (error != null)
     {
         if (error is SqlException)
             return Results.Problem(title: "Database out", statusCode: 500);
@@ -112,5 +107,6 @@ app.Map("/error", (HttpContext http) =>
 
     return Results.Problem(title: "An error ocurred", statusCode: 500);
 });
+
 
 app.Run();
