@@ -2,7 +2,6 @@
 
 namespace IWantApp.Infra.Data;
 
-// Classe de contexto de banco de dados
 public class ApplicationDbContext : IdentityDbContext<IdentityUser>
 {
     public DbSet<Product> Products { get; set; }
@@ -16,7 +15,7 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
         base.OnModelCreating(builder);
 
         builder.Ignore<Notification>();
-        
+
         builder.Entity<Product>()
             .Property(p => p.Name).IsRequired();
         builder.Entity<Product>()
@@ -34,7 +33,7 @@ public class ApplicationDbContext : IdentityDbContext<IdentityUser>
         builder.Entity<Order>()
             .HasMany(o => o.Products)
             .WithMany(p => p.Orders)
-            .UsingEntity(x => x.ToTable("") )
+            .UsingEntity(x => x.ToTable("OrderProducts"));
     }
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configuration)
