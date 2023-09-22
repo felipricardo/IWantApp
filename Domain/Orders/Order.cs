@@ -38,5 +38,4 @@ public class Order : Entity
             .IsNotNullOrEmpty(DeliveryAddress, "DeliveryAddress");
         AddNotifications(contract);
     }
-
 }
